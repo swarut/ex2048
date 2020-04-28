@@ -18,6 +18,7 @@ defmodule Ex2048Web.Router do
     pipe_through :browser
 
     live "/", PageLive, :index
+    live "/boards", BoardLive.Index, :index
   end
 
   # Other scopes may use custom stacks.
