@@ -6,7 +6,7 @@ defmodule Ex2048Web.BoardLive.Index do
 
   @impl true
   def mount(_params, _session, socket) do
-    {:ok, assign(socket, :boards, fetch_boards())}
+    {:ok, socket |> assign(:boards, fetch_boards()) |> assign(:cells, Enum.to_list(1..16))}
   end
 
   @impl true

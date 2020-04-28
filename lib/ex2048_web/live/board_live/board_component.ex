@@ -3,7 +3,15 @@ defmodule Ex2048Web.BoardLive.BoardComponent do
 
   def render(assigns) do
     ~L"""
-      <div> yo <b><%= assigns[:name] %></b> </div>
+    <div id="board">
+      <%= for cell <- @cells do %>
+        <div class="item item-<%= cell %>">
+          <div class="cell">
+            <%= cell %>
+          </div>
+        </div>
+      <% end %>
+    </div>
     """
   end
 end

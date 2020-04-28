@@ -2,6 +2,8 @@
 @import "./phoenix.css";
 @import "../node_modules/nprogress/nprogress.css";
 
+@import "board";
+
 /* LiveView specific classes for your customizations */
 .invalid-feedback {
   color: #a94442;
