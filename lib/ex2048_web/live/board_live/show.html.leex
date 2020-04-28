@@ -1,0 +1,22 @@
+<h1>Show Board</h1>
+
+<%= if @live_action in [:edit] do %>
+  <%= live_modal @socket, Ex2048Web.BoardLive.FormComponent,
+    id: @board.id,
+    title: @page_title,
+    action: @live_action,
+    board: @board,
+    return_to: Routes.board_show_path(@socket, :show, @board) %>
+<% end %>
+
+<ul>
+
+  <li>
+    <strong>Size:</strong>
+    <%= @board.size %>
+  </li>
+
+</ul>
+
+<span><%= live_patch "Edit", to: Routes.board_show_path(@socket, :edit, @board), class: "button" %></span>
+<span><%= live_redirect "Back", to: Routes.board_index_path(@socket, :index) %></span>
