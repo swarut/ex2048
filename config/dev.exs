@@ -2,8 +2,8 @@ use Mix.Config
 
 # Configure your database
 config :ex2048, Ex2048.Repo,
-  username: "postgres",
-  password: "postgres",
+  username: "swarut",
+  password: "",
   database: "ex2048_dev",
   hostname: "localhost",
   show_sensitive_data_on_connection_error: true,
