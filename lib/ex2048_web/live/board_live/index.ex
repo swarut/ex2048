@@ -1,8 +1,8 @@
 defmodule Ex2048Web.BoardLive.Index do
   use Ex2048Web, :live_view
 
-  # alias Ex2048.Game2048s
-  # alias Ex2048.Game2048s.Board
+  # alias Ex2048.Game
+  # alias Ex2048.Game.Board
 
   @impl true
   def mount(_params, _session, socket) do
@@ -21,7 +21,7 @@ defmodule Ex2048Web.BoardLive.Index do
   end
 
   defp fetch_boards do
-    # Game2048s.list_boards()
+    # Game.list_boards()
     []
   end
 end

@@ -3,14 +3,14 @@ defmodule Ex2048Web.BoardLiveTest do
 
   import Phoenix.LiveViewTest
 
-  alias Ex2048.Game2048s
+  alias Ex2048.Games
 
   @create_attrs %{size: 42}
   @update_attrs %{size: 43}
   @invalid_attrs %{size: nil}
 
   defp fixture(:board) do
-    {:ok, board} = Game2048s.create_board(@create_attrs)
+    {:ok, board} = Games.create_board(@create_attrs)
     board
   end
 
@@ -32,7 +32,7 @@ defmodule Ex2048Web.BoardLiveTest do
       {:ok, index_live, _html} = live(conn, Routes.board_index_path(conn, :index))
 
       assert index_live |> element("a", "New Board") |> render_click() =~
-        "New Board"
+               "New Board"
 
       assert_patch(index_live, Routes.board_index_path(conn, :new))
 
@@ -53,7 +53,7 @@ defmodule Ex2048Web.BoardLiveTest do
       {:ok, index_live, _html} = live(conn, Routes.board_index_path(conn, :index))
 
       assert index_live |> element("#board-#{board.id} a", "Edit") |> render_click() =~
-        "Edit Board"
+               "Edit Board"
 
       assert_patch(index_live, Routes.board_index_path(conn, :edit, board))
 
@@ -91,7 +91,7 @@ defmodule Ex2048Web.BoardLiveTest do
       {:ok, show_live, _html} = live(conn, Routes.board_show_path(conn, :show, board))
 
       assert show_live |> element("a", "Edit") |> render_click() =~
-        "Edit Board"
+               "Edit Board"
 
       assert_patch(show_live, Routes.board_show_path(conn, :edit, board))
 

@@ -1,4 +1,4 @@
-defmodule Ex2048.Game2048s.Board do
+defmodule Ex2048.Game.Board do
   # use Ecto.Schema
   # import Ecto.Changeset
 
