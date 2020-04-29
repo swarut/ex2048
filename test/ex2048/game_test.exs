@@ -3,62 +3,113 @@ defmodule Ex2048.GamesTest do
 
   alias Ex2048.Game
 
-  describe "boards" do
-    alias Ex2048.Game.Board
-
-    @valid_attrs %{size: 42}
-    @update_attrs %{size: 43}
-    @invalid_attrs %{size: nil}
-
-    def board_fixture(attrs \\ %{}) do
-      {:ok, board} =
-        attrs
-        |> Enum.into(@valid_attrs)
-        |> Game.create_board()
-
-      board
+  describe "init_game/1" do
+    test "returns new board" do
+      board = Game.init_game(2)
+      assert board == [nil, nil, nil, nil]
     end
+  end
 
-    test "list_boards/0 returns all boards" do
-      board = board_fixture()
-      assert Game.list_boards() == [board]
+  describe "randomly_add_cell/1" do
+    test "returns new board" do
+      board = [1, nil, 2, nil, 4, nil, nil, 6]
+      nil_count = board |> Enum.filter(fn x -> x == nil end) |> length
+      board = Game.randomly_add_cell([1, nil, 2, nil, 4, nil, nil, 6])
+      nil_count_after = board |> Enum.filter(fn x -> x == nil end) |> length
+      assert nil_count - nil_count_after == 1
+      # IO.puts("board = #{inspect(board)}")
+      # assert Enum.member?([1, 3, 5, 6], board)
     end
+  end
 
-    test "get_board!/1 returns the board with given id" do
-      board = board_fixture()
-      assert Game.get_board!(board.id) == board
+  describe "pad/2" do
+    test "returns padded list" do
+      padded_list = Game.pad([1], 2)
+      assert padded_list == [nil, 1]
+      padded_list = Game.pad([1], 3)
+      assert padded_list == [nil, nil, 1]
+      padded_list = Game.pad([2, nil], 3)
+      assert padded_list == [nil, 2, nil]
+      padded_list = Game.pad([], 3)
+      assert padded_list == [nil, nil, nil]
     end
+  end
 
-    test "create_board/1 with valid data creates a board" do
-      assert {:ok, %Board{} = board} = Game.create_board(@valid_attrs)
-      assert board.size == 42
+  describe "list_merge_left/2" do
+    test "returns merged list" do
+      # merged_list = Game.list_merge_left([2, 2, nil], [])
+      # assert merged_list == [4]
+
+      merged_list = Game.list_merge_left([nil, nil, 2], [])
+      assert merged_list == [2]
     end
+  end
 
-    test "create_board/1 with invalid data returns error changeset" do
-      assert {:error, %Ecto.Changeset{}} = Game.create_board(@invalid_attrs)
+  describe "board_merge_left/2" do
+    test "returns board" do
+      board = [2, 2, 2, nil, nil, nil, nil, nil, nil]
+      merged_board = Game.board_merge_left(board, 3)
+      assert merged_board == [4, 2, nil, nil, nil, nil, nil, nil, nil]
+
+      board = [2, 4, 8, nil, nil, nil, 2, 2, 2]
+      merged_board = Game.board_merge_left(board, 3)
+      assert merged_board == [2, 4, 8, nil, nil, nil, 4, 2, nil]
+
+      board = [2, nil, 2, nil, nil, nil, nil, nil, nil]
+      merged_board = Game.board_merge_left(board, 3)
+      assert merged_board == [4, nil, nil, nil, nil, nil, nil, nil, nil]
     end
+  end
 
-    test "update_board/2 with valid data updates the board" do
-      board = board_fixture()
-      assert {:ok, %Board{} = board} = Game.update_board(board, @update_attrs)
-      assert board.size == 43
+  describe "board_merge_right/2" do
+    test "returns board" do
+      board = [2, 2, 2, nil, nil, nil, nil, nil, nil]
+      merged_board = Game.board_merge_right(board, 3)
+      assert merged_board == [nil, 2, 4, nil, nil, nil, nil, nil, nil]
+
+      board = [2, 4, 8, nil, nil, nil, 2, 2, 2]
+      merged_board = Game.board_merge_right(board, 3)
+      assert merged_board == [2, 4, 8, nil, nil, nil, nil, 2, 4]
     end
+  end
 
-    test "update_board/2 with invalid data returns error changeset" do
-      board = board_fixture()
-      assert {:error, %Ecto.Changeset{}} = Game.update_board(board, @invalid_attrs)
-      assert board == Game.get_board!(board.id)
+  describe "board_merge_up/2" do
+    test "returns board" do
+      board = [2, 2, 2, nil, nil, nil, nil, nil, nil]
+      merged_board = Game.board_merge_up(board, 3)
+      assert merged_board == [2, 2, 2, nil, nil, nil, nil, nil, nil]
+
+      board = [2, 2, 2, nil, nil, nil, 2, 2, 2]
+      merged_board = Game.board_merge_up(board, 3)
+      assert merged_board == [4, 4, 4, nil, nil, nil, nil, nil, nil]
     end
+  end
 
-    test "delete_board/1 deletes the board" do
-      board = board_fixture()
-      assert {:ok, %Board{}} = Game.delete_board(board)
-      assert_raise Ecto.NoResultsError, fn -> Game.get_board!(board.id) end
+  describe "board_merge_down/2" do
+    test "returns board" do
+      board = [2, 2, 2, nil, nil, nil, nil, nil, nil]
+      merged_board = Game.board_merge_down(board, 3)
+      assert merged_board == [nil, nil, nil, nil, nil, nil, 2, 2, 2]
+
+      board = [2, 2, 2, nil, nil, nil, 2, 2, 2]
+      merged_board = Game.board_merge_down(board, 3)
+      assert merged_board == [nil, nil, nil, nil, nil, nil, 4, 4, 4]
     end
+  end
 
-    test "change_board/1 returns a board changeset" do
-      board = board_fixture()
-      assert %Ecto.Changeset{} = Game.change_board(board)
+  describe "horizontal_flip/2" do
+    test "returns flipped board" do
+      board = [1, 2, 3, nil, nil, nil, nil, nil, nil]
+      flipped_board = Game.horizontal_flip(board, 3)
+      assert flipped_board == [3, 2, 1, nil, nil, nil, nil, nil, nil]
+    end
+  end
+
+  describe "transpose/2" do
+    test "returns transposed board" do
+      board = [1, 2, 3, nil, nil, nil, nil, nil, nil]
+      flipped_board = Game.transpose(board, 3)
+      assert flipped_board == [1, nil, nil, 2, nil, nil, 3, nil, nil]
     end
   end
 end

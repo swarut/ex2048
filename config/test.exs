@@ -6,8 +6,8 @@ use Mix.Config
 # to provide built-in test partitioning in CI environment.
 # Run `mix help test` for more information.
 config :ex2048, Ex2048.Repo,
-  username: "postgres",
-  password: "postgres",
+  username: "swarut",
+  password: "",
   database: "ex2048_test#{System.get_env("MIX_TEST_PARTITION")}",
   hostname: "localhost",
   pool: Ecto.Adapters.SQL.Sandbox
@@ -15,7 +15,7 @@ config :ex2048, Ex2048.Repo,
 # We don't run a server during test. If one is required,
 # you can enable the server option below.
 config :ex2048, Ex2048Web.Endpoint,
-  http: [port: 4002],
+  http: [port: 5002],
   server: false
 
 # Print only warnings and errors during test
