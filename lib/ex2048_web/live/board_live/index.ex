@@ -10,7 +10,7 @@ defmodule Ex2048Web.BoardLive.Index do
     {:ok,
      socket
      |> assign(:boards, fetch_boards())
-     |> assign(:cells, Game.init_game(@board_size) |> Game.randomly_add_cell())
+     |> assign(:cells, Game.init_game(@board_size))
      |> assign(:key, "nothing")}
   end
 
