@@ -9,7 +9,6 @@ defmodule Ex2048Web.BoardLive.Index do
   def mount(_params, _session, socket) do
     {:ok,
      socket
-     |> assign(:boards, fetch_boards())
      |> assign(:cells, Game.init_game(@board_size))
      |> assign(:key, "nothing")}
   end
@@ -54,10 +53,5 @@ defmodule Ex2048Web.BoardLive.Index do
     socket
     |> assign(:page_title, "Listing Boards")
     |> assign(:board, nil)
-  end
-
-  defp fetch_boards do
-    # Game.list_boards()
-    []
   end
 end
