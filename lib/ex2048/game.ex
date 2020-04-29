@@ -3,14 +3,6 @@ defmodule Ex2048.Game do
   The Game context.
   """
 
-  # def subscribe do
-  #   Phoenix.PubSub.subscribe(Ex2048.PubSub, "game")
-  # end
-
-  # def broadcast({:ok, game}, event) do
-  #   Phoenix.PubSub.broadcast(Ex2048.PubSub)
-  # end
-
   def init_game(board_width) do
     List.duplicate(nil, board_width * board_width)
   end
