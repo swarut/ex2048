@@ -9,7 +9,8 @@ defmodule Ex2048Web.BoardLive.Index do
     {:ok,
      socket
      |> assign(:boards, fetch_boards())
-     |> assign(:cells, Enum.to_list(1..16))
+     |> assign(:cells, [])
+     #  |> assign(:cells, Enum.to_list(1..16))
      |> assign(:key, "nothing")}
   end
 
@@ -23,8 +24,13 @@ defmodule Ex2048Web.BoardLive.Index do
     {:noreply, socket}
   end
 
-  def handle_event("update_board", %{"id" => _id}, socket) do
-    {:noreply, socket}
+  def handle_event("update_board", %{"code" => key_code}, socket) do
+    IO.puts("+++++++++++++++ UPDATE BOARD ON parent - #{key_code}")
+    cells = socket.assigns[:cells]
+    IO.inspect(cells)
+    cells = [2 | cells]
+    {:noreply, socket |> assign(:key, key_code) |> assign(:cells, cells)}
+    # |> assign(:cells, [cells | 2])
   end
 
   defp apply_action(socket, :index, _params) do

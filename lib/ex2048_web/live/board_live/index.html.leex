@@ -1,4 +1,4 @@
 <h1>2048</h1>
 <%= @key %>
-<%= live_component @socket, Ex2048Web.BoardLive.BoardComponent, id: "board", name: "yaha", cells: @cells %>
+<%= live_component @socket, Ex2048Web.BoardLive.BoardComponent, id: "board", name: "yaha", cells: @cells, key: @key %>
 
