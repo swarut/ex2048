@@ -3,6 +3,25 @@ defmodule Ex2048.GamesTest do
 
   alias Ex2048.Game
 
+  describe "init_game/1" do
+    test "returns new board" do
+      board = Game.init_game(2)
+      assert board == [nil, nil, nil, nil]
+    end
+  end
+
+  describe "randomly_add_cell/1" do
+    test "returns new board" do
+      board = [1, nil, 2, nil, 4, nil, nil, 6]
+      nil_count = board |> Enum.filter(fn x -> x == nil end) |> length
+      board = Game.randomly_add_cell([1, nil, 2, nil, 4, nil, nil, 6])
+      nil_count_after = board |> Enum.filter(fn x -> x == nil end) |> length
+      assert nil_count - nil_count_after == 1
+      # IO.puts("board = #{inspect(board)}")
+      # assert Enum.member?([1, 3, 5, 6], board)
+    end
+  end
+
   describe "pad/2" do
     test "returns padded list" do
       padded_list = Game.pad([1], 2)

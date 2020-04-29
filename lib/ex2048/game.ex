@@ -3,10 +3,6 @@ defmodule Ex2048.Game do
   The Game context.
   """
 
-  def handle_key_event(key) do
-    IO.puts("Game handles key event #{key}")
-  end
-
   # def subscribe do
   #   Phoenix.PubSub.subscribe(Ex2048.PubSub, "game")
   # end
@@ -14,6 +10,26 @@ defmodule Ex2048.Game do
   # def broadcast({:ok, game}, event) do
   #   Phoenix.PubSub.broadcast(Ex2048.PubSub)
   # end
+
+  def init_game(board_width) do
+    List.duplicate(nil, board_width * board_width)
+  end
+
+  def randomly_add_cell(board) do
+    [random_index] =
+      board
+      |> Enum.with_index()
+      |> Enum.reduce([], fn {value, index}, acc ->
+        case value do
+          nil -> [index | acc]
+          _ -> acc
+        end
+      end)
+      |> Enum.take_random(1)
+
+    board |> List.update_at(random_index, fn _ -> 2 end)
+  end
+
   def board_merge_left(board, board_width) do
     board
     |> Enum.chunk_every(board_width)
@@ -55,7 +71,7 @@ defmodule Ex2048.Game do
   def transpose(board, board_width) do
     board
     |> Enum.chunk_every(board_width)
-    |> List.zip()
+    |> Enum.zip()
     |> Enum.map(&Tuple.to_list(&1))
     |> List.flatten()
   end
