@@ -3,13 +3,14 @@ defmodule Ex2048Web.BoardLive.Index do
 
   alias Ex2048.Game
 
+  @board_size 4
+
   @impl true
   def mount(_params, _session, socket) do
     {:ok,
      socket
      |> assign(:boards, fetch_boards())
-     |> assign(:cells, Game.init_game(4) |> Game.randomly_add_cell())
-     #  |> assign(:cells, Enum.to_list(1..16))
+     |> assign(:cells, Game.init_game(@board_size) |> Game.randomly_add_cell())
      |> assign(:key, "nothing")}
   end
 
@@ -28,10 +29,20 @@ defmodule Ex2048Web.BoardLive.Index do
 
     board =
       case key_code do
-        "ArrowLeft" -> Game.board_merge_left(board, 4) |> Game.randomly_add_cell()
-        "ArrowUp" -> Game.board_merge_up(board, 4) |> Game.randomly_add_cell()
-        "ArrowRight" -> Game.board_merge_right(board, 4) |> Game.randomly_add_cell()
-        "ArrowDown" -> Game.board_merge_down(board, 4) |> Game.randomly_add_cell()
+        "ArrowLeft" ->
+          Game.merge_left(board, 4)
+
+        "ArrowUp" ->
+          Game.merge_up(board, 4)
+
+        "ArrowRight" ->
+          Game.merge_right(board, 4)
+
+        "ArrowDown" ->
+          Game.merge_down(board, 4)
+
+        _ ->
+          board
       end
 
     cells = socket.assigns[:cells]

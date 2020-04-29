@@ -22,6 +22,26 @@ defmodule Ex2048.Game do
     board |> List.update_at(random_index, fn _ -> 2 end)
   end
 
+  def merge_left(board, board_width) do
+    board_merge_left(board, board_width)
+    |> randomly_add_cell()
+  end
+
+  def merge_right(board, board_width) do
+    board_merge_right(board, board_width)
+    |> randomly_add_cell()
+  end
+
+  def merge_up(board, board_width) do
+    board_merge_up(board, board_width)
+    |> randomly_add_cell()
+  end
+
+  def merge_down(board, board_width) do
+    board_merge_down(board, board_width)
+    |> randomly_add_cell()
+  end
+
   def board_merge_left(board, board_width) do
     board
     |> Enum.chunk_every(board_width)
