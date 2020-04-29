@@ -7,10 +7,12 @@ defmodule Ex2048Web.BoardLive.Index do
 
   @impl true
   def mount(_params, _session, socket) do
+    board = Game.init_game(@board_size)
+    IO.puts(inspect(board))
+
     {:ok,
      socket
-     |> assign(:cells, Game.init_game(@board_size))
-     |> assign(:key, "nothing")}
+     |> assign(:board, board)}
   end
 
   @impl true
@@ -24,7 +26,7 @@ defmodule Ex2048Web.BoardLive.Index do
   end
 
   def handle_event("update_board", %{"code" => key_code}, socket) do
-    board = socket.assigns.cells
+    board = socket.assigns.board
 
     board =
       case key_code do
@@ -44,14 +46,11 @@ defmodule Ex2048Web.BoardLive.Index do
           board
       end
 
-    cells = socket.assigns[:cells]
-    IO.inspect(cells)
-    {:noreply, socket |> assign(:key, key_code) |> assign(:cells, board)}
+    {:noreply, socket |> assign(:key, key_code) |> assign(:board, board)}
   end
 
   defp apply_action(socket, :index, _params) do
     socket
     |> assign(:page_title, "Listing Boards")
-    |> assign(:board, nil)
   end
 end
