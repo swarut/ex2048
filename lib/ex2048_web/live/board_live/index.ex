@@ -7,12 +7,7 @@ defmodule Ex2048Web.BoardLive.Index do
 
   @impl true
   def mount(_params, _session, socket) do
-    board = Game.init_game(@board_size)
-    IO.puts(inspect(board))
-
-    {:ok,
-     socket
-     |> assign(:board, board)}
+    {:ok, socket |> assign(:board, Game.init_game(@board_size))}
   end
 
   @impl true
