@@ -83,21 +83,13 @@ defmodule Ex2048.Game.Board do
 
   def list_merge_left([h | t], [acc_h | acc_t] = acc) do
     cond do
-      h == acc_h -> list_merge_left(t, [merge_cells(h, acc_h) | acc_t])
+      h == acc_h -> list_merge_left(t, [h + acc_h | acc_t])
       true -> list_merge_left(t, [h | acc])
     end
   end
 
   def list_merge_left([], acc) do
     acc
-  end
-
-  def merge_cells(nil, nil) do
-    nil
-  end
-
-  def merge_cells(cell1, cell2) do
-    cell1 + cell2
   end
 
   def pad(list, expected_length) do
