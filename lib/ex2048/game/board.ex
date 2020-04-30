@@ -21,8 +21,8 @@ defmodule Ex2048.Game.Board do
   def board_merge_left(board, board_width) do
     board
     |> Enum.chunk_every(board_width)
-    |> Enum.map(fn list ->
-      list_merge_left(list)
+    |> Enum.map(fn row ->
+      list_merge_left(row)
       |> pad(board_width)
       |> Enum.reverse()
     end)
