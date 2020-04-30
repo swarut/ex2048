@@ -11,15 +11,6 @@ defmodule Ex2048Web.BoardLive.Index do
   end
 
   @impl true
-  def handle_params(params, _url, socket) do
-    {:noreply, apply_action(socket, socket.assigns.live_action, params)}
-  end
-
-  @impl true
-  def handle_event("delete", %{"id" => _id}, socket) do
-    {:noreply, socket}
-  end
-
   def handle_event("update_board", %{"code" => key_code}, socket) do
     board = socket.assigns.board
 
@@ -42,10 +33,5 @@ defmodule Ex2048Web.BoardLive.Index do
       end
 
     {:noreply, socket |> assign(:key, key_code) |> assign(:board, board)}
-  end
-
-  defp apply_action(socket, :index, _params) do
-    socket
-    |> assign(:page_title, "Listing Boards")
   end
 end
